@@ -38,11 +38,30 @@ Given your inputs, what are the steps necessary to return the desired output?
 //Display the second number that was selected to the UI
 
 //Run the numbers through the appropriate function based on the operand selection
+let num1 = +prompt('Enter the 1st num:');
+let num2 = +prompt('Enter the 2nd num:');
+console.log(add(num1,num2));
+console.log(subtract(num1,num2));
+console.log(multiply(num1,num2));
+console.log(divide(num1,num2));
     //Sum
+function add(a,b){
+    return a + b;
+}
     //Subtract
+function subtract(a,b){
+    return a - b;
+}
     //Multiply
+function multiply(a,b){
+    return a * b;
+}
     //Divide
-    
+function divide(a,b){
+    return a / b;
+}
+
+
 //Return the result of the operation to the screen to display to the user if they select
     //the equal sign or another operand
 
