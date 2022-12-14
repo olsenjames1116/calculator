@@ -24,14 +24,14 @@ Given your inputs, what are the steps necessary to return the desired output?
 */
 
 //Save a number that has been input from the buttons of a calculator
-let expression = prompt('Enter the 1st num, a space, the operator, a space, then the 2nd num:');
-let expressionArray = expression.split(' ');
+// let expression = prompt('Enter the 1st num, a space, the operator, a space, then the 2nd num:');
+// let expressionArray = expression.split(' ');
 
-let num1 = +expressionArray[0];
-let operator = expressionArray[expressionArray.length-2];
-let num2 = +expressionArray[expressionArray.length-1];
+// let num1 = +expressionArray[0];
+// let operator = expressionArray[expressionArray.length-2];
+// let num2 = +expressionArray[expressionArray.length-1];
 
-operate(num1,operator,num2);
+// operate(num1,operator,num2);
 
 function operate(num1,operator,num2){
     let result;
@@ -51,6 +51,23 @@ function operate(num1,operator,num2){
 }
 
 //Display the number that was selected to the UI
+getNumber();
+
+function getNumber(){
+    const numbers = document.querySelectorAll('button.number');
+    numbers.forEach(number => {
+        number.addEventListener('click', ()=> {
+            let numberText = number.textContent;
+            displayNumber(numberText);
+            let operand = +numberText;
+        })
+    });
+}
+
+function displayNumber(numberText){
+    const display = document.querySelector('p.display');
+    display.textContent = numberText;
+}
 
 //Round the number to a few decimal points so it does not overflow the calculator
 
