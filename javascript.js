@@ -32,15 +32,6 @@ const clear = document.querySelector('button.clear');
 const equal = document.querySelector('button.equal');
 
 //Save a number that has been input from the buttons of a calculator
-// let expression = prompt('Enter the 1st num, a space, the operator, a space, then the 2nd num:');
-// let expressionArray = expression.split(' ');
-
-// let num1 = +expressionArray[0];
-// let operator = expressionArray[expressionArray.length-2];
-// let num2 = +expressionArray[expressionArray.length-1];
-
-// operate(num1,operator,num2);
-
 function operate(num1,operator,num2){
     let result;
     if(operator==='+'){
@@ -55,50 +46,59 @@ function operate(num1,operator,num2){
     else{
         result = divide(num1,num2);
     }
-    console.log(result);
+    return result;
 }
 
-//Display the number that was selected to the UI
+//Save an operand put in by a user
 getNumber();
 
-function getNumber(operator=''){
+function getNumber(operatorChoice=''){
     let firstNum = '';
     let secondNum = '';
     let operand;
+
     numbers.forEach(number => {
-        number.addEventListener('click', ()=> {
-            if(operator===''){
+        number.addEventListener('click', event => {
+            if(operatorChoice===''){
                 if(firstNum.length<9){
-                    firstNum += number.textContent;
+                    firstNum += event.target.textContent;
                     displayNumber(firstNum);
                     operand = +firstNum;
                 }
             }
             else{
                 if(secondNum.length<9){
-                    secondNum += +number.textContent;
+                    secondNum += event.target.textContent;
                     displayNumber(secondNum);
                     operand = +secondNum;
                 }
             }
         })
     });
+
     return operand;
 }
 
+//Save the operator input from the user
+getOperator();
+
+function getOperator(){
+    let operatorChoice;
+
+    operators.forEach(operator => {
+        operator.addEventListener('click', event => {
+            operatorChoice = event.target.textContent;
+            event.target.setAttribute('style','background-color: darkblue');
+        })
+    })
+
+    return operatorChoice;
+}
+
+//Display the number that was selected to the UI
 function displayNumber(numberText){
     display.textContent = numberText;
 }
-
-//Round the number to a few decimal points so it does not overflow the calculator
-
-//Save an operand put in by a user
-
-//Change the operand if a user presses a different one before entering a second number
-
-//Save a second number from the button presses of a calculator
-
-//Display the second number that was selected to the UI
 
 //Run the numbers through the appropriate function based on the operand selection
     //Sum
@@ -125,6 +125,8 @@ function divide(a,b){
 
 //Return the result of the operation to the screen to display to the user if they select
     //the equal sign or another operand
+
+//Round the number to a few decimal points so it does not overflow the calculator
 
 //Keep a running total of the numbers until the clear button is pressed
 
