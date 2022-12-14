@@ -24,6 +24,19 @@ Given your inputs, what are the steps necessary to return the desired output?
 */
 
 //Save a number that has been input from the buttons of a calculator
+let expression = prompt('Enter the 1st num, a space, the operator, a space, then the 2nd num:');
+let expressionArray = expression.split(' ');
+
+let num1 = +expressionArray[0];
+let operator = expressionArray[expressionArray.length-2];
+let num2 = +expressionArray[expressionArray.length-1];
+
+console.log(`${num1}`);
+console.log(`${num2}`);
+console.log(add(num1,num2));
+console.log(subtract(num1,num2));
+console.log(multiply(num1,num2));
+console.log(divide(num1,num2));
 
 //Display the number that was selected to the UI
 
@@ -38,12 +51,6 @@ Given your inputs, what are the steps necessary to return the desired output?
 //Display the second number that was selected to the UI
 
 //Run the numbers through the appropriate function based on the operand selection
-let num1 = +prompt('Enter the 1st num:');
-let num2 = +prompt('Enter the 2nd num:');
-console.log(add(num1,num2));
-console.log(subtract(num1,num2));
-console.log(multiply(num1,num2));
-console.log(divide(num1,num2));
     //Sum
 function add(a,b){
     return a + b;
