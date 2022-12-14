@@ -55,10 +55,13 @@ getNumber();
 
 function getNumber(){
     const numbers = document.querySelectorAll('button.number');
+    let numberText = '';
     numbers.forEach(number => {
         number.addEventListener('click', ()=> {
-            let numberText = number.textContent;
+            if(numberText.length<9){
+            numberText += number.textContent;
             displayNumber(numberText);
+            }
             let operand = +numberText;
         })
     });
