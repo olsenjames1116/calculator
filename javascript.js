@@ -23,6 +23,14 @@ Given your inputs, what are the steps necessary to return the desired output?
     clear button will reset the current value back to zero.
 */
 
+const numbers = document.querySelectorAll('button.number');
+const operators = document.querySelectorAll('button.operator');
+const decimal = document.querySelector('button.decimal');
+const positiveNegative = document.querySelector('button.positiveNegative');
+const display = document.querySelector('p.display');
+const clear = document.querySelector('button.clear');
+const equal = document.querySelector('button.equal');
+
 //Save a number that has been input from the buttons of a calculator
 // let expression = prompt('Enter the 1st num, a space, the operator, a space, then the 2nd num:');
 // let expressionArray = expression.split(' ');
@@ -53,22 +61,32 @@ function operate(num1,operator,num2){
 //Display the number that was selected to the UI
 getNumber();
 
-function getNumber(){
-    const numbers = document.querySelectorAll('button.number');
-    let numberText = '';
+function getNumber(operator=''){
+    let firstNum = '';
+    let secondNum = '';
+    let operand;
     numbers.forEach(number => {
         number.addEventListener('click', ()=> {
-            if(numberText.length<9){
-            numberText += number.textContent;
-            displayNumber(numberText);
+            if(operator===''){
+                if(firstNum.length<9){
+                    firstNum += number.textContent;
+                    displayNumber(firstNum);
+                    operand = +firstNum;
+                }
             }
-            let operand = +numberText;
+            else{
+                if(secondNum.length<9){
+                    secondNum += +number.textContent;
+                    displayNumber(secondNum);
+                    operand = +secondNum;
+                }
+            }
         })
     });
+    return operand;
 }
 
 function displayNumber(numberText){
-    const display = document.querySelector('p.display');
     display.textContent = numberText;
 }
 
