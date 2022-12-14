@@ -31,12 +31,24 @@ let num1 = +expressionArray[0];
 let operator = expressionArray[expressionArray.length-2];
 let num2 = +expressionArray[expressionArray.length-1];
 
-console.log(`${num1}`);
-console.log(`${num2}`);
-console.log(add(num1,num2));
-console.log(subtract(num1,num2));
-console.log(multiply(num1,num2));
-console.log(divide(num1,num2));
+operate(num1,operator,num2);
+
+function operate(num1,operator,num2){
+    let result;
+    if(operator==='+'){
+        result = add(num1,num2);
+    }
+    else if(operator==='-'){
+        result = subtract(num1,num2);
+    }
+    else if(operator==='*'){
+        result = multiply(num1,num2);
+    }
+    else{
+        result = divide(num1,num2);
+    }
+    console.log(result);
+}
 
 //Display the number that was selected to the UI
 
@@ -53,18 +65,22 @@ console.log(divide(num1,num2));
 //Run the numbers through the appropriate function based on the operand selection
     //Sum
 function add(a,b){
+    console.log(a + '+' + b);
     return a + b;
 }
     //Subtract
 function subtract(a,b){
+    console.log(a + '-' + b);
     return a - b;
 }
     //Multiply
 function multiply(a,b){
+    console.log(a + '*' + b);
     return a * b;
 }
     //Divide
 function divide(a,b){
+    console.log(a + '/' + b);
     return a / b;
 }
 
