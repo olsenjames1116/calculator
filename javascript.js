@@ -26,8 +26,8 @@ Given your inputs, what are the steps necessary to return the desired output?
 const numbers = document.querySelectorAll('button.number');
 const operators = document.querySelectorAll('button.operator');
 const numbersOperators = document.querySelectorAll('button.number, button.operator');
-const decimal = document.querySelector('button.decimal');
-const positiveNegative = document.querySelector('button.positiveNegative');
+const decimal = document.querySelector('button#decimal');
+const positiveNegative = document.querySelector('button#positiveNegative');
 const display = document.querySelector('p.display');
 const clear = document.querySelector('button.clear');
 const equal = document.querySelector('button.equal');
@@ -35,17 +35,17 @@ let numberOperatorArray = [];
 
 //Decide which operation should be performed after a user
     //presses the equal button and display result
-function operate(){
-    if(operatorChoice==='+'){
+function operate(leftOperand,operator,rightOperand){    
+    if(operator==='+'){
         result = add(leftOperand,rightOperand);
     }
-    else if(operatorChoice==='-'){
+    else if(operator==='-'){
         result = subtract(leftOperand,rightOperand);
     }
-    else if(operatorChoice==='*'){
+    else if(operator==='*'){
         result = multiply(leftOperand,rightOperand);
     }
-    else if(operatorChoice==='/'){
+    else if(operator==='/'){
         result = divide(leftOperand,rightOperand);
     }
     else{
@@ -54,8 +54,7 @@ function operate(){
     display.textContent = result;
 }
 
-//Save an operand put in by a user then call
-
+//Save all the input from the user
 numbersOperators.forEach(numberOperator => {
     numberOperator.addEventListener('click', event => {
         numberOperatorArray.push(event.target.textContent);
@@ -70,6 +69,7 @@ function displayNumber(numberText){
     display.textContent = numberText;
 } 
 
+//Takes in the raw array of input from the user and split it into 2 arrays of type array
 function splitArray(){
     numberOperatorArray.push('=');
     let start = 0;
@@ -92,16 +92,15 @@ function splitArray(){
     }
     tempOperatorArray.pop();
 
-    console.log(tempOperatorArray);
-    console.log(tempOperandArray);
-
     prepareOperations(tempOperandArray,tempOperatorArray);
 }
 
-
+//Take 2 arrays of type array and transfer them into an array of numbers and an array of strings
 function prepareOperations(tempOperandArray,tempOperatorArray){
     let operandArray = [];
     let operatorArray = [];
+    let operationsObjArray = [];
+    let operationsObj;
     for(let i=0; i<tempOperandArray.length; i++){
         let tempNumArray = tempOperandArray[i];
         let currentNumber = +tempNumArray.join('');
@@ -110,7 +109,42 @@ function prepareOperations(tempOperandArray,tempOperatorArray){
     for(let i=0; i<tempOperatorArray.length; i++){
         operatorArray[i] = tempOperatorArray[i].toString();
     }
+
+    for(let i=0; i<operatorArray.length; i++){
+        operationsObj = {};
+        operationsObj.leftOperand = operandArray[i];
+        operationsObj.operator = operatorArray[i];
+        operationsObj.rightOperand = operandArray[i+1];
+        operationsObjArray.push(operationsObj);
+    }
+    console.table(operationsObjArray);
+    orderOfOperations(operationsObjArray);
 }
+
+//Take an array of operations and sort them by order of operations
+function orderOfOperations(operationsObjArray){
+    operationsObjArray.sort((a,b) => {
+        if(a.operator==='*' || a.operator==='/' || a.operator==='%'){
+            if(b.operator==='+' || b.operator==='-'){
+                return -1;
+            }
+            else{
+                return 0;
+            }
+        }
+        else{
+            if(b.operator==='*' || b.operator==='/' || b.operator==='%'){
+                return 1;
+            }
+            else{
+                return 0;
+            }
+        }
+    })
+
+    console.table(operationsObjArray);
+}
+
 //Run the numbers through the appropriate function based on the operand selection
     //Sum
 function add(a,b){let leftOperand = '';
