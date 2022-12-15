@@ -31,70 +31,66 @@ const display = document.querySelector('p.display');
 const clear = document.querySelector('button.clear');
 const equal = document.querySelector('button.equal');
 let operatorChoice='';
-
-getNumber();
+let leftOperand = '';
+let rightOperand = '';
+let result = '';
+let firstNum = '';
+let secondNum = '';
 
 //Decide which operation should be performed after a user
     //presses the equal button and display result
-function operate(leftOperand,operatorChoice,rightOperand){
-    let result;
+function operate(){
+    if(operatorChoice==='+'){
+        result = add(leftOperand,rightOperand);
+    }
+    else if(operatorChoice==='-'){
+        result = subtract(leftOperand,rightOperand);
+    }
+    else if(operatorChoice==='*'){
+        result = multiply(leftOperand,rightOperand);
+    }
+    else{
+        result = divide(leftOperand,rightOperand);
+    }
+    display.textContent = result;
+    rightOperand = '';
+    leftOperand = result;
+    operatorChoice = '';
+    firstNum = '';
+    secondNum = '';
 
-    equal.addEventListener('click', () => {
-        if(operatorChoice==='+'){
-            result = add(leftOperand,rightOperand);
-        }
-        else if(operatorChoice==='-'){
-            result = subtract(leftOperand,rightOperand);
-        }
-        else if(operatorChoice==='*'){
-            result = multiply(leftOperand,rightOperand);
-        }
-        else{
-            result = divide(leftOperand,rightOperand);
-        }
-        display.textContent = result
-    });
 }
 
 //Save an operand put in by a user then call 
-function getNumber(){
-    let firstNum = '';
-    let secondNum = '';
-    let leftOperand;
-    let rightOperand;
-
-    numbers.forEach(number => {
-        number.addEventListener('click', event => {
-            if(operatorChoice===''){
-                if(firstNum.length<9){
-                    firstNum += event.target.textContent;
-                    displayNumber(firstNum);
-                    leftOperand = +firstNum;
-                }
-                operatorChoice = getOperator();
+numbers.forEach(number => {
+    number.addEventListener('click', event => {
+        if(operatorChoice==='' && leftOperand===''){
+            console.log(firstNum.length);
+            if(firstNum.length<9){
+                firstNum += event.target.textContent;
+                displayNumber(firstNum);
+                leftOperand = +firstNum;
             }
-            else{
-                if(secondNum.length<9){
-                    secondNum += event.target.textContent;
-                    displayNumber(secondNum);
-                    rightOperand = +secondNum;
-                }
-                operate(leftOperand,operatorChoice,rightOperand);
+        }
+        else{
+            if(secondNum.length<9){
+                secondNum += event.target.textContent;
+                displayNumber(secondNum);
+                rightOperand = +secondNum;
             }
-        })
-    });
-}
+        }
+    })
+});
 
 //Save the operator input from the user
-function getOperator(){
-    operators.forEach(operator => {
-        operator.addEventListener('click', event => {
-            operatorChoice = event.target.textContent;
-            event.target.setAttribute('style','background-color: darkblue');
-            return operatorChoice;
-        })
-    });
-}
+operators.forEach(operator => {
+    operator.addEventListener('click', event => {
+        operatorChoice = event.target.textContent;
+        event.target.setAttribute('style','background-color: darkblue');
+    })
+});
+
+equal.addEventListener('click', operate);
 
 //Display the number that was selected to the UI
 function displayNumber(numberText){
@@ -104,22 +100,18 @@ function displayNumber(numberText){
 //Run the numbers through the appropriate function based on the operand selection
     //Sum
 function add(a,b){
-    console.log(a + '+' + b);
     return a + b;
 }
     //Subtract
 function subtract(a,b){
-    console.log(a + '-' + b);
     return a - b;
 }
     //Multiply
 function multiply(a,b){
-    console.log(a + '*' + b);
     return a * b;
 }
     //Divide
 function divide(a,b){
-    console.log(a + '/' + b);
     return a / b;
 }
 
