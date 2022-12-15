@@ -118,22 +118,24 @@ function displayNumber(numberText){
 function splitArray(){
     numberOperatorArray.push('=');
     let start = 0;
-    let separatedArray = [];
+    let numbersArray = [];
+    let operatorArray = [];
     let x = 0;
     for(let i=0; i<numberOperatorArray.length; i++){
         if(numberOperatorArray[i]==='+' || numberOperatorArray[i]==='-' || numberOperatorArray[i]==='*' 
         || numberOperatorArray[i]==='/' || numberOperatorArray[i]==='%' || numberOperatorArray[i]==='='){
-            if(separatedArray.length===0){
-                separatedArray[x] = numberOperatorArray.slice(start, i);
+            if(numbersArray.length===0){
+                numbersArray[x] = numberOperatorArray.slice(start, i);
             }
             else{
-                separatedArray[x] = numberOperatorArray.slice(start+1, i);
+                numbersArray[x] = numberOperatorArray.slice(start+1, i);
             }
+            operatorArray[x] = numberOperatorArray.slice(i, i+1);
             start = i;
             x++;
         }
     }
-    console.log(separatedArray);
+    operatorArray.pop();
 }
 
 //Run the numbers through the appropriate function based on the operand selection
