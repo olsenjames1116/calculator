@@ -25,13 +25,18 @@ Given your inputs, what are the steps necessary to return the desired output?
 
 const numbers = document.querySelectorAll('button.number');
 const operators = document.querySelectorAll('button.operator');
+const numbersOperators = document.querySelectorAll('button.number, button.operator');
 const decimal = document.querySelector('button.decimal');
 const positiveNegative = document.querySelector('button.positiveNegative');
 const display = document.querySelector('p.display');
 const clear = document.querySelector('button.clear');
 const equal = document.querySelector('button.equal');
+let numberOperatorArray = [];
+
+
+
+
 let operatorChoice='';
-let leftOperand = '';
 let rightOperand = '';
 let result = '';
 let firstNum = '';
@@ -49,8 +54,11 @@ function operate(){
     else if(operatorChoice==='*'){
         result = multiply(leftOperand,rightOperand);
     }
-    else{
+    else if(operatorChoice==='/'){
         result = divide(leftOperand,rightOperand);
+    }
+    else{
+        result = remainder(leftOperand,rightOperand);
     }
     display.textContent = result;
     rightOperand = '';
@@ -61,45 +69,76 @@ function operate(){
 
 }
 
-//Save an operand put in by a user then call 
-numbers.forEach(number => {
-    number.addEventListener('click', event => {
-        if(operatorChoice==='' && leftOperand===''){
-            console.log(firstNum.length);
-            if(firstNum.length<9){
-                firstNum += event.target.textContent;
-                displayNumber(firstNum);
-                leftOperand = +firstNum;
-            }
-        }
-        else{
-            if(secondNum.length<9){
-                secondNum += event.target.textContent;
-                displayNumber(secondNum);
-                rightOperand = +secondNum;
-            }
-        }
-    })
-});
+//Save an operand put in by a user then call
 
-//Save the operator input from the user
-operators.forEach(operator => {
-    operator.addEventListener('click', event => {
-        operatorChoice = event.target.textContent;
-        event.target.setAttribute('style','background-color: darkblue');
+numbersOperators.forEach(numberOperator => {
+    numberOperator.addEventListener('click', event => {
+        numberOperatorArray.push(event.target.textContent);
+        display.textContent = numberOperatorArray.join('');
     })
-});
+})
 
-equal.addEventListener('click', operate);
+
+
+
+// numbers.forEach(number => {
+//     number.addEventListener('click', event => {
+//         if(operatorChoice==='' && leftOperand===''){
+//             if(firstNum.length<9){
+//                 firstNum += event.target.textContent;
+//                 displayNumber(firstNum);
+//                 leftOperand = +firstNum;
+//             }
+//         }
+//         else{
+//             if(secondNum.length<9){
+//                 secondNum += event.target.textContent;
+//                 displayNumber(secondNum);
+//                 rightOperand = +secondNum;
+//             }
+//         }
+//     })
+// });
+
+// //Save the operator input from the user
+// operators.forEach(operator => {
+//     operator.addEventListener('click', event => {
+//         operatorChoice = event.target.textContent;
+//         event.target.setAttribute('style','background-color: darkblue');
+//     })
+// });
+
+equal.addEventListener('click', splitArray);
 
 //Display the number that was selected to the UI
 function displayNumber(numberText){
     display.textContent = numberText;
+} 
+
+function splitArray(){
+    numberOperatorArray.push('=');
+    let start = 0;
+    let separatedArray = [];
+    let x = 0;
+    for(let i=0; i<numberOperatorArray.length; i++){
+        if(numberOperatorArray[i]==='+' || numberOperatorArray[i]==='-' || numberOperatorArray[i]==='*' 
+        || numberOperatorArray[i]==='/' || numberOperatorArray[i]==='%' || numberOperatorArray[i]==='='){
+            if(separatedArray.length===0){
+                separatedArray[x] = numberOperatorArray.slice(start, i);
+            }
+            else{
+                separatedArray[x] = numberOperatorArray.slice(start+1, i);
+            }
+            start = i;
+            x++;
+        }
+    }
+    console.log(separatedArray);
 }
 
 //Run the numbers through the appropriate function based on the operand selection
     //Sum
-function add(a,b){
+function add(a,b){let leftOperand = '';
     return a + b;
 }
     //Subtract
@@ -113,6 +152,11 @@ function multiply(a,b){
     //Divide
 function divide(a,b){
     return a / b;
+}
+
+    //Remainder
+function remainder(a,b){
+    return a % b;
 }
 
 
