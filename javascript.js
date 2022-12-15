@@ -33,15 +33,6 @@ const clear = document.querySelector('button.clear');
 const equal = document.querySelector('button.equal');
 let numberOperatorArray = [];
 
-
-
-
-let operatorChoice='';
-let rightOperand = '';
-let result = '';
-let firstNum = '';
-let secondNum = '';
-
 //Decide which operation should be performed after a user
     //presses the equal button and display result
 function operate(){
@@ -61,12 +52,6 @@ function operate(){
         result = remainder(leftOperand,rightOperand);
     }
     display.textContent = result;
-    rightOperand = '';
-    leftOperand = result;
-    operatorChoice = '';
-    firstNum = '';
-    secondNum = '';
-
 }
 
 //Save an operand put in by a user then call
@@ -78,36 +63,6 @@ numbersOperators.forEach(numberOperator => {
     })
 })
 
-
-
-
-// numbers.forEach(number => {
-//     number.addEventListener('click', event => {
-//         if(operatorChoice==='' && leftOperand===''){
-//             if(firstNum.length<9){
-//                 firstNum += event.target.textContent;
-//                 displayNumber(firstNum);
-//                 leftOperand = +firstNum;
-//             }
-//         }
-//         else{
-//             if(secondNum.length<9){
-//                 secondNum += event.target.textContent;
-//                 displayNumber(secondNum);
-//                 rightOperand = +secondNum;
-//             }
-//         }
-//     })
-// });
-
-// //Save the operator input from the user
-// operators.forEach(operator => {
-//     operator.addEventListener('click', event => {
-//         operatorChoice = event.target.textContent;
-//         event.target.setAttribute('style','background-color: darkblue');
-//     })
-// });
-
 equal.addEventListener('click', splitArray);
 
 //Display the number that was selected to the UI
@@ -118,26 +73,44 @@ function displayNumber(numberText){
 function splitArray(){
     numberOperatorArray.push('=');
     let start = 0;
-    let numbersArray = [];
-    let operatorArray = [];
+    let tempOperandArray = [];
+    let tempOperatorArray = [];
     let x = 0;
     for(let i=0; i<numberOperatorArray.length; i++){
         if(numberOperatorArray[i]==='+' || numberOperatorArray[i]==='-' || numberOperatorArray[i]==='*' 
         || numberOperatorArray[i]==='/' || numberOperatorArray[i]==='%' || numberOperatorArray[i]==='='){
-            if(numbersArray.length===0){
-                numbersArray[x] = numberOperatorArray.slice(start, i);
+            if(tempOperandArray.length===0){
+                tempOperandArray[x] = numberOperatorArray.slice(start, i);
             }
             else{
-                numbersArray[x] = numberOperatorArray.slice(start+1, i);
+                tempOperandArray[x] = numberOperatorArray.slice(start+1, i);
             }
-            operatorArray[x] = numberOperatorArray.slice(i, i+1);
+            tempOperatorArray[x] = numberOperatorArray.slice(i, i+1);
             start = i;
             x++;
         }
     }
-    operatorArray.pop();
+    tempOperatorArray.pop();
+
+    console.log(tempOperatorArray);
+    console.log(tempOperandArray);
+
+    prepareOperations(tempOperandArray,tempOperatorArray);
 }
 
+
+function prepareOperations(tempOperandArray,tempOperatorArray){
+    let operandArray = [];
+    let operatorArray = [];
+    for(let i=0; i<tempOperandArray.length; i++){
+        let tempNumArray = tempOperandArray[i];
+        let currentNumber = +tempNumArray.join('');
+        operandArray[i] = currentNumber;
+    }
+    for(let i=0; i<tempOperatorArray.length; i++){
+        operatorArray[i] = tempOperatorArray[i].toString();
+    }
+}
 //Run the numbers through the appropriate function based on the operand selection
     //Sum
 function add(a,b){let leftOperand = '';
@@ -166,7 +139,5 @@ function remainder(a,b){
     //the equal sign or another operand
 
 //Round the number to a few decimal points so it does not overflow the calculator
-
-//Keep a running total of the numbers until the clear button is pressed
 
 //Clear everything to 0 when the clear button is pressed
