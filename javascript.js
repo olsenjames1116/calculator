@@ -33,27 +33,6 @@ const clear = document.querySelector('button.clear');
 const equal = document.querySelector('button.equal');
 let numberOperatorArray = [];
 
-//Decide which operation should be performed after a user
-    //presses the equal button and display result
-function operate(leftOperand,operator,rightOperand){    
-    if(operator==='+'){
-        result = add(leftOperand,rightOperand);
-    }
-    else if(operator==='-'){
-        result = subtract(leftOperand,rightOperand);
-    }
-    else if(operator==='*'){
-        result = multiply(leftOperand,rightOperand);
-    }
-    else if(operator==='/'){
-        result = divide(leftOperand,rightOperand);
-    }
-    else{
-        result = remainder(leftOperand,rightOperand);
-    }
-    display.textContent = result;
-}
-
 //Save all the input from the user
 numbersOperators.forEach(numberOperator => {
     numberOperator.addEventListener('click', event => {
@@ -65,8 +44,8 @@ numbersOperators.forEach(numberOperator => {
 equal.addEventListener('click', splitArray);
 
 //Display the number that was selected to the UI
-function displayNumber(numberText){
-    display.textContent = numberText;
+function displayNumber(text){
+    display.textContent = text;
 } 
 
 //Takes in the raw array of input from the user and split it into 2 arrays of type array
@@ -143,6 +122,40 @@ function orderOfOperations(operationsObjArray){
     })
 
     console.table(operationsObjArray);
+    operate(operationsObjArray);
+}
+
+//Decide which operation should be performed
+function operate(operationsObjArray){  
+    let result;
+
+    for(let i=0; i<operationsObjArray.length; i++){
+        if(operationsObjArray[i].operator==='+'){
+            result = add(operationsObjArray[i].leftOperand,operationsObjArray[i].rightOperand);
+        }
+        else if(operationsObjArray[i].operator==='-'){
+            result = subtract(operationsObjArray[i].leftOperand,operationsObjArray[i].rightOperand);
+        }
+        else if(operationsObjArray[i].operator==='*'){
+            result = multiply(operationsObjArray[i].leftOperand,operationsObjArray[i].rightOperand);
+        }
+        else if(operationsObjArray[i].operator==='/'){
+            result = divide(operationsObjArray[i].leftOperand,operationsObjArray[i].rightOperand);
+        }
+        else{
+            result = remainder(operationsObjArray[i].leftOperand,operationsObjArray[i].rightOperand);
+        }
+
+        if(i===operationsObjArray.length-1){
+            break;
+        }
+        else{
+            operationsObjArray[i+1].leftOperand = result;
+        }
+}
+
+    display.textContent = result;
+    clear(operationsObjArray);
 }
 
 //Run the numbers through the appropriate function based on the operand selection
@@ -168,10 +181,8 @@ function remainder(a,b){
     return a % b;
 }
 
-
-//Return the result of the operation to the screen to display to the user if they select
-    //the equal sign or another operand
+//Clear everything to 0 when the clear button is pressed
 
 //Round the number to a few decimal points so it does not overflow the calculator
 
-//Clear everything to 0 when the clear button is pressed
+//Accept negative numbers
