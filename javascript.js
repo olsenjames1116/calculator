@@ -30,32 +30,38 @@ const positiveNegative = document.querySelector('button.positiveNegative');
 const display = document.querySelector('p.display');
 const clear = document.querySelector('button.clear');
 const equal = document.querySelector('button.equal');
+let operatorChoice='';
 
-//Save a number that has been input from the buttons of a calculator
-function operate(num1,operator,num2){
-    let result;
-    if(operator==='+'){
-        result = add(num1,num2);
-    }
-    else if(operator==='-'){
-        result = subtract(num1,num2);
-    }
-    else if(operator==='*'){
-        result = multiply(num1,num2);
-    }
-    else{
-        result = divide(num1,num2);
-    }
-    return result;
-}
-
-//Save an operand put in by a user
 getNumber();
 
-function getNumber(operatorChoice=''){
+//Decide which operation should be performed after a user
+    //presses the equal button and display result
+function operate(leftOperand,operatorChoice,rightOperand){
+    let result;
+
+    equal.addEventListener('click', () => {
+        if(operatorChoice==='+'){
+            result = add(leftOperand,rightOperand);
+        }
+        else if(operatorChoice==='-'){
+            result = subtract(leftOperand,rightOperand);
+        }
+        else if(operatorChoice==='*'){
+            result = multiply(leftOperand,rightOperand);
+        }
+        else{
+            result = divide(leftOperand,rightOperand);
+        }
+        display.textContent = result
+    });
+}
+
+//Save an operand put in by a user then call 
+function getNumber(){
     let firstNum = '';
     let secondNum = '';
-    let operand;
+    let leftOperand;
+    let rightOperand;
 
     numbers.forEach(number => {
         number.addEventListener('click', event => {
@@ -63,36 +69,31 @@ function getNumber(operatorChoice=''){
                 if(firstNum.length<9){
                     firstNum += event.target.textContent;
                     displayNumber(firstNum);
-                    operand = +firstNum;
+                    leftOperand = +firstNum;
                 }
+                operatorChoice = getOperator();
             }
             else{
                 if(secondNum.length<9){
                     secondNum += event.target.textContent;
                     displayNumber(secondNum);
-                    operand = +secondNum;
+                    rightOperand = +secondNum;
                 }
+                operate(leftOperand,operatorChoice,rightOperand);
             }
         })
     });
-
-    return operand;
 }
 
 //Save the operator input from the user
-getOperator();
-
 function getOperator(){
-    let operatorChoice;
-
     operators.forEach(operator => {
         operator.addEventListener('click', event => {
             operatorChoice = event.target.textContent;
             event.target.setAttribute('style','background-color: darkblue');
+            return operatorChoice;
         })
-    })
-
-    return operatorChoice;
+    });
 }
 
 //Display the number that was selected to the UI
