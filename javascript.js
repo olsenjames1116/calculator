@@ -35,6 +35,7 @@ const equal = document.querySelector('button.equal');
 let numberOperatorArray = [];
 let result;
 let numberOfCharacters;
+let containsDecimal;
 
 clearInput();
 
@@ -47,6 +48,13 @@ numbersOperators.forEach(numberOperator => {
 
         if(numberOfCharacters<20){
             let displayString = event.target.textContent;
+
+            if(event.target.textContent==='.'){
+                if(containsDecimal){
+                    return;
+                }
+                containsDecimal = true;
+            }
 
             if(displayString==='+/-'){
                 displayString = '-';
@@ -214,4 +222,5 @@ function clearInput(){
     numberOperatorArray = [];
     result = 0;
     numberOfCharacters = 0;
+    containsDecimal = false;
 }
