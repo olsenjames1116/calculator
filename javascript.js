@@ -31,29 +31,33 @@ const positiveNegative = document.querySelector('button#positiveNegative');
 const display = document.querySelector('p.display');
 const clear = document.querySelector('button.clear');
 const equal = document.querySelector('button.equal');
+
 let numberOperatorArray = [];
+let result;
+
+clearInput();
 
 //Save all the input from the user
 numbersOperators.forEach(numberOperator => {
     numberOperator.addEventListener('click', event => {
+        if(result!==0){
+            clearInput();
+        }
         numberOperatorArray.push(event.target.textContent);
         display.textContent = numberOperatorArray.join('');
     })
 })
 
-equal.addEventListener('click', splitArray);
+equal.addEventListener('click',splitArray);
 
-//Display the number that was selected to the UI
-function displayNumber(text){
-    display.textContent = text;
-} 
+clear.addEventListener('click',clearInput);
 
 //Takes in the raw array of input from the user and split it into 2 arrays of type array
 function splitArray(){
-    numberOperatorArray.push('=');
-    let start = 0;
     let tempOperandArray = [];
     let tempOperatorArray = [];
+    numberOperatorArray.push('=');
+    let start = 0;
     let x = 0;
     for(let i=0; i<numberOperatorArray.length; i++){
         if(numberOperatorArray[i]==='+' || numberOperatorArray[i]==='-' || numberOperatorArray[i]==='*' 
@@ -80,6 +84,7 @@ function prepareOperations(tempOperandArray,tempOperatorArray){
     let operatorArray = [];
     let operationsObjArray = [];
     let operationsObj;
+
     for(let i=0; i<tempOperandArray.length; i++){
         let tempNumArray = tempOperandArray[i];
         let currentNumber = +tempNumArray.join('');
@@ -127,8 +132,6 @@ function orderOfOperations(operationsObjArray){
 
 //Decide which operation should be performed
 function operate(operationsObjArray){  
-    let result;
-
     for(let i=0; i<operationsObjArray.length; i++){
         if(operationsObjArray[i].operator==='+'){
             result = add(operationsObjArray[i].leftOperand,operationsObjArray[i].rightOperand);
@@ -155,7 +158,6 @@ function operate(operationsObjArray){
 }
 
     display.textContent = result;
-    clear(operationsObjArray);
 }
 
 //Run the numbers through the appropriate function based on the operand selection
@@ -182,6 +184,11 @@ function remainder(a,b){
 }
 
 //Clear everything to 0 when the clear button is pressed
+function clearInput(){
+    display.textContent = 0;
+    numberOperatorArray = [];
+    result = 0;
+}
 
 //Round the number to a few decimal points so it does not overflow the calculator
 
