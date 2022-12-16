@@ -72,9 +72,9 @@ numbersOperators.forEach(numberOperator => {
 })
 
 document.addEventListener('keydown', event => {
-    // if(!event.shiftKey){
-    if((event.which>=48 && event.which<=57) || event.which===13 || event.which===187
-    || event.which===189 || event.which===190 || event.which===191 || event.which===220){
+    if((event.which>=48 && event.which<=57) || event.which===13 || event.which===67 || 
+    event.which===187 || event.which===189 || event.which===190 || event.which===191 || 
+    event.which===220){
         removeActive();
         console.log(event);
         let eventKeyString = event.key;
@@ -85,6 +85,11 @@ document.addEventListener('keydown', event => {
 
         let button = document.querySelector(`button[data-key="${eventKeyString}"]`);
         button.classList.add('active');
+
+        if(eventKeyString==='c'){
+            clearInput();
+            return;
+        }
 
         if(result!==0){
             clearInput();
@@ -116,7 +121,6 @@ document.addEventListener('keydown', event => {
             console.table(numberOperatorArray);
         }
     }
-    // }
 });
 
 equal.addEventListener('click',splitArray);
