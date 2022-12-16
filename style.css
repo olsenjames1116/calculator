@@ -1,0 +1,33 @@
+body{
+    background-color: gray;
+    margin: 0px;
+}
+
+div.calculator{
+    height: 765px;
+    display: grid;
+}
+
+div.display{
+    display: flex;
+    align-items: center;
+    margin: 0px;
+    padding: 5px;
+    margin-left: auto;
+    grid-column: 1/5;
+    font-size: 75px;
+}
+
+button.number, button#decimal{
+    background-color: black;
+    color: white;
+    outline: 1px solid black;
+}
+
+button.clear{
+    background-color: orange;
+}
+
+button#zero{
+    grid-column: 1/3;
+}

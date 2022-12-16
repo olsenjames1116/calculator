@@ -28,7 +28,7 @@ const operators = document.querySelectorAll('button.operator');
 const numbersOperators = document.querySelectorAll('button.number, button.operator');
 const decimal = document.querySelector('button#decimal');
 const positiveNegative = document.querySelector('button#positiveNegative');
-const display = document.querySelector('p.display');
+const display = document.querySelector('div.display');
 const clear = document.querySelector('button.clear');
 const equal = document.querySelector('button.equal');
 
