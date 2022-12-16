@@ -23,6 +23,7 @@ Given your inputs, what are the steps necessary to return the desired output?
     clear button will reset the current value back to zero.
 */
 
+const buttons = document.querySelectorAll('button');
 const numbers = document.querySelectorAll('button.number');
 const operators = document.querySelectorAll('button.operator');
 const numbersOperators = document.querySelectorAll('button.number, button.operator');
@@ -42,6 +43,9 @@ clearInput();
 //Save all the input from the user
 numbersOperators.forEach(numberOperator => {
     numberOperator.addEventListener('click', event => {
+        removeActive();
+
+        event.target.classList.add('active');
         if(result!==0){
             clearInput();
         }
@@ -70,6 +74,12 @@ numbersOperators.forEach(numberOperator => {
 equal.addEventListener('click',splitArray);
 
 clear.addEventListener('click',clearInput);
+
+function removeActive(){
+    buttons.forEach(button => {
+        button.classList.remove('active');
+    });
+}
 
 //Takes in the raw array of input from the user and split it into 2 arrays of type array
 function splitArray(){
@@ -163,7 +173,10 @@ function orderOfOperations(operationsObjArray){
 }
 
 //Decide which operation should be performed
-function operate(operationsObjArray){  
+function operate(operationsObjArray){
+    console.table(numberOperatorArray);
+    console.table(operationsObjArray);
+
     for(let i=0; i<operationsObjArray.length; i++){
         if(operationsObjArray[i].operator==='+'){
             result = add(operationsObjArray[i].leftOperand,operationsObjArray[i].rightOperand);
@@ -223,4 +236,5 @@ function clearInput(){
     result = 0;
     numberOfCharacters = 0;
     containsDecimal = false;
+    removeActive();
 }

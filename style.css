@@ -18,6 +18,10 @@ div.display{
     font-size: 75px;
 }
 
+button{
+    font-size: 40px;
+}
+
 button.number, button#decimal{
     background-color: black;
     color: white;
@@ -30,4 +34,9 @@ button.clear{
 
 button#zero{
     grid-column: 1/3;
+}
+
+button.active{
+    background-color: rgb(192, 189, 189);
+    color: black;
 }
