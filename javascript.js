@@ -73,45 +73,48 @@ numbersOperators.forEach(numberOperator => {
 
 document.addEventListener('keydown', event => {
     // if(!event.shiftKey){
-    removeActive();
-    console.log(event.key);
-    let eventKeyString = event.key;
+    if((event.which>=48 && event.which<=57) || event.which===13 || event.which===187
+    || event.which===189 || event.which===190 || event.which===191 || event.which===220){
+        removeActive();
+        console.log(event);
+        let eventKeyString = event.key;
 
-    if(eventKeyString==='Enter'){
-        eventKeyString = '=';
-    }
+        if(eventKeyString==='Enter'){
+            eventKeyString = '=';
+        }
 
-    let button = document.querySelector(`button[data-key="${eventKeyString}"]`);
-    button.classList.add('active');
+        let button = document.querySelector(`button[data-key="${eventKeyString}"]`);
+        button.classList.add('active');
 
-    if(result!==0){
-        clearInput();
-    }
+        if(result!==0){
+            clearInput();
+        }
 
 
-    if(eventKeyString==='='){
-        splitArray();
-        return;
-    }
+        if(eventKeyString==='='){
+            splitArray();
+            return;
+        }
 
-    if(numberOfCharacters<20){
-        let displayString = button.textContent;
+        if(numberOfCharacters<20){
+            let displayString = button.textContent;
 
-        if(button.textContent==='.'){
-            if(containsDecimal){
-                return;
+            if(button.textContent==='.'){
+                if(containsDecimal){
+                    return;
+                }
+                containsDecimal = true;
             }
-            containsDecimal = true;
-        }
 
-        if(displayString==='+/-'){
-            displayString = '-';
-        }
+            if(displayString==='+/-'){
+                displayString = '-';
+            }
 
-        numberOperatorArray.push(displayString);
-        display.textContent = numberOperatorArray.join('');
-        numberOfCharacters++;
-        console.table(numberOperatorArray);
+            numberOperatorArray.push(displayString);
+            display.textContent = numberOperatorArray.join('');
+            numberOfCharacters++;
+            console.table(numberOperatorArray);
+        }
     }
     // }
 });
