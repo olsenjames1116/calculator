@@ -34,6 +34,7 @@ const equal = document.querySelector('button.equal');
 
 let numberOperatorArray = [];
 let result;
+let numberOfCharacters;
 
 clearInput();
 
@@ -43,8 +44,18 @@ numbersOperators.forEach(numberOperator => {
         if(result!==0){
             clearInput();
         }
-        numberOperatorArray.push(event.target.textContent);
-        display.textContent = numberOperatorArray.join('');
+
+        if(numberOfCharacters<20){
+            let displayString = event.target.textContent;
+
+            if(displayString==='+/-'){
+                displayString = '-';
+            }
+
+            numberOperatorArray.push(displayString);
+            display.textContent = numberOperatorArray.join('');
+            numberOfCharacters++;
+        }
     })
 })
 
@@ -84,10 +95,19 @@ function prepareOperations(tempOperandArray,tempOperatorArray){
     let operatorArray = [];
     let operationsObjArray = [];
     let operationsObj;
+    let currentNumber;
 
     for(let i=0; i<tempOperandArray.length; i++){
         let tempNumArray = tempOperandArray[i];
-        let currentNumber = +tempNumArray.join('');
+        let indexOfSign = tempNumArray.indexOf('+/-');
+
+        if(indexOfSign!==-1){
+            tempNumArray[indexOfSign] = '-';
+        }
+
+        currentNumber = +tempNumArray.join('');
+        currentNumber = +currentNumber.toFixed(4);
+        console.log(currentNumber);
         operandArray[i] = currentNumber;
     }
     for(let i=0; i<tempOperatorArray.length; i++){
@@ -101,8 +121,13 @@ function prepareOperations(tempOperandArray,tempOperatorArray){
         operationsObj.rightOperand = operandArray[i+1];
         operationsObjArray.push(operationsObj);
     }
-    console.table(operationsObjArray);
-    orderOfOperations(operationsObjArray);
+
+    if(operandArray.length===1){
+        display.textContent = currentNumber;
+    }
+    else{
+        orderOfOperations(operationsObjArray);
+    }
 }
 
 //Take an array of operations and sort them by order of operations
@@ -126,7 +151,6 @@ function orderOfOperations(operationsObjArray){
         }
     })
 
-    console.table(operationsObjArray);
     operate(operationsObjArray);
 }
 
@@ -157,6 +181,7 @@ function operate(operationsObjArray){
         }
 }
 
+    result = +result.toFixed(4);
     display.textContent = result;
 }
 
@@ -188,8 +213,5 @@ function clearInput(){
     display.textContent = 0;
     numberOperatorArray = [];
     result = 0;
+    numberOfCharacters = 0;
 }
-
-//Round the number to a few decimal points so it does not overflow the calculator
-
-//Accept negative numbers
