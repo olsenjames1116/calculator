@@ -71,6 +71,42 @@ numbersOperators.forEach(numberOperator => {
     })
 })
 
+document.addEventListener('keydown', event => {
+    removeActive();
+    console.log(event.key);
+    let button = document.querySelector(`button[data-key="${event.key}"]`);
+    button.classList.add('active');
+
+    if(event.key==='Enter'){
+        splitArray();
+        return;
+    }
+
+    if(result!==0){
+        clearInput();
+    }
+
+    if(numberOfCharacters<20){
+        let displayString = button.textContent;
+
+        if(button.textContent==='.'){
+            if(containsDecimal){
+                return;
+            }
+            containsDecimal = true;
+        }
+
+        if(displayString==='+/-'){
+            displayString = '-';
+        }
+
+        numberOperatorArray.push(displayString);
+        display.textContent = numberOperatorArray.join('');
+        numberOfCharacters++;
+        console.table(numberOperatorArray);
+    }
+});
+
 equal.addEventListener('click',splitArray);
 
 clear.addEventListener('click',clearInput);
