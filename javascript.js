@@ -44,8 +44,8 @@ clearInput();
 numbersOperators.forEach(numberOperator => {
     numberOperator.addEventListener('click', event => {
         removeActive();
-
         event.target.classList.add('active');
+
         if(result!==0){
             clearInput();
         }
@@ -71,13 +71,25 @@ numbersOperators.forEach(numberOperator => {
     })
 })
 
+//Key presses correlate to buttons on the calculator
 document.addEventListener('keydown', event => {
-    if((event.which>=48 && event.which<=57) || event.which===13 || event.which===67 || 
-    event.which===187 || event.which===189 || event.which===190 || event.which===191 || 
-    event.which===220){
+    if((event.which>=48 && event.which<=57) || event.which===8 || event.which===13 || 
+    event.which===67 || event.which===187 || event.which===189 || event.which===190 || 
+    event.which===191 || event.which===220){
         removeActive();
-        console.log(event);
         let eventKeyString = event.key;
+
+        if(eventKeyString==='Backspace'){
+            numberOperatorArray.pop();
+            if(numberOperatorArray.length===0){
+                display.textContent = 0;
+            }
+            else{
+                display.textContent = numberOperatorArray.join('');
+            }
+            console.table(numberOperatorArray);
+            return;
+        }
 
         if(eventKeyString==='Enter'){
             eventKeyString = '=';
