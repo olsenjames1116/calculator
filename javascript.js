@@ -72,18 +72,26 @@ numbersOperators.forEach(numberOperator => {
 })
 
 document.addEventListener('keydown', event => {
+    // if(!event.shiftKey){
     removeActive();
     console.log(event.key);
-    let button = document.querySelector(`button[data-key="${event.key}"]`);
-    button.classList.add('active');
+    let eventKeyString = event.key;
 
-    if(event.key==='Enter'){
-        splitArray();
-        return;
+    if(eventKeyString==='Enter'){
+        eventKeyString = '=';
     }
+
+    let button = document.querySelector(`button[data-key="${eventKeyString}"]`);
+    button.classList.add('active');
 
     if(result!==0){
         clearInput();
+    }
+
+
+    if(eventKeyString==='='){
+        splitArray();
+        return;
     }
 
     if(numberOfCharacters<20){
@@ -105,6 +113,7 @@ document.addEventListener('keydown', event => {
         numberOfCharacters++;
         console.table(numberOperatorArray);
     }
+    // }
 });
 
 equal.addEventListener('click',splitArray);
