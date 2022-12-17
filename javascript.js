@@ -10,7 +10,7 @@ const equal = document.querySelector('button.equal');
 
 let numberOperatorArray = [];
 let result;
-let numberOfCharacters;
+let numberOfCharacters = 0;
 let containsDecimal;
 
 clearInput();
@@ -25,7 +25,7 @@ numbersOperators.forEach(numberOperator => {
             clearInput();
         }
 
-        if(numberOfCharacters<20){
+        if(numberOfCharacters<9){
             let displayString = event.target.textContent;
 
             if(event.target.textContent==='.'){
@@ -55,6 +55,11 @@ document.addEventListener('keydown', event => {
 
         if(event.key==='Backspace'){
             numberOperatorArray.pop();
+            
+            if(numberOfCharacters>0){
+                numberOfCharacters--;
+            }
+
             if(numberOperatorArray.length===0){
                 display.textContent = 0;
             }
@@ -82,7 +87,7 @@ document.addEventListener('keydown', event => {
             return;
         }
 
-        if(numberOfCharacters<20){
+        if(numberOfCharacters<9){
             let displayString = button.textContent;
 
             if(button.textContent==='.'){
@@ -99,7 +104,6 @@ document.addEventListener('keydown', event => {
             numberOperatorArray.push(displayString);
             display.textContent = numberOperatorArray.join('');
             numberOfCharacters++;
-            console.table(numberOperatorArray);
         }
     }
 });
@@ -157,8 +161,7 @@ function prepareOperations(tempOperandArray,tempOperatorArray){
         }
 
         currentNumber = +tempNumArray.join('');
-        currentNumber = +currentNumber.toFixed(4);
-        console.log(currentNumber);
+        // currentNumber = +currentNumber.toFixed(4);
         operandArray[i] = currentNumber;
     }
     for(let i=0; i<tempOperatorArray.length; i++){
@@ -205,59 +208,122 @@ function orderOfOperations(operationsObjArray){
     operate(operationsObjArray);
 }
 
-//Decide which operation should be performed
+//Decide which operation should be performed and output result
 function operate(operationsObjArray){
     console.table(numberOperatorArray);
     console.table(operationsObjArray);
+    let i = 0;
+    result = [];
 
-    for(let i=0; i<operationsObjArray.length; i++){
-        if(operationsObjArray[i].operator==='+'){
-            result = add(operationsObjArray[i].leftOperand,operationsObjArray[i].rightOperand);
-        }
-        else if(operationsObjArray[i].operator==='-'){
-            result = subtract(operationsObjArray[i].leftOperand,operationsObjArray[i].rightOperand);
-        }
-        else if(operationsObjArray[i].operator==='*'){
-            result = multiply(operationsObjArray[i].leftOperand,operationsObjArray[i].rightOperand);
+    for(i; operationsObjArray[i].operator==='*' || operationsObjArray[i].operator==='/' ||
+    operationsObjArray[i].operator==='%'; i++){
+        if(operationsObjArray[i].operator==='*'){
+            result[i] = multiply(operationsObjArray[i].leftOperand,operationsObjArray[i].rightOperand);
         }
         else if(operationsObjArray[i].operator==='/'){
-            result = divide(operationsObjArray[i].leftOperand,operationsObjArray[i].rightOperand);
+            result[i] = divide(operationsObjArray[i].leftOperand,operationsObjArray[i].rightOperand);
         }
         else{
-            result = remainder(operationsObjArray[i].leftOperand,operationsObjArray[i].rightOperand);
+            result[i] = remainder(operationsObjArray[i].leftOperand,operationsObjArray[i].rightOperand);
         }
 
-        if(i===operationsObjArray.length-1){
+        if(i+1===operationsObjArray.length){
+            if(operationsObjArray[i].operator==='*'){
+                result[0] = multiply(result[0],operationsObjArray[i].rightOperand);
+            }
+            else if(operationsObjArray[i].operator==='/'){
+                result[0] = divide(result[0],operationsObjArray[i].rightOperand);
+            }
+            else{
+                result[0] = remainder(result[0],operationsObjArray[i].rightOperand);
+            }
+
             break;
         }
-        else{
-            operationsObjArray[i+1].leftOperand = result;
-        }
-}
+    }
 
-    result = +result.toFixed(4);
+    if(i>0){
+        let x = 1;
+
+        for(i; i<operationsObjArray.length; i++){
+
+            if(operationsObjArray[0].leftOperand===operationsObjArray[operationsObjArray.length-1].rightOperand){
+                operationsObjArray[i].rightOperand = result[0];
+            }
+            else{
+                operationsObjArray[i].leftOperand = result[0];
+
+                if(i+1!==operationsObjArray.length){
+                    operationsObjArray[i].rightOperand = result[x];
+                }
+    
+            }
+
+            if(operationsObjArray[i].operator==='+'){
+                result[0] = add(operationsObjArray[i].leftOperand,operationsObjArray[i].rightOperand);
+            }
+            else if(operationsObjArray[i].operator==='-'){
+                result[0] = subtract(operationsObjArray[i].leftOperand,operationsObjArray[i].rightOperand);
+            }
+
+            x++;
+        }
+
+    }
+    else{
+        for(let i=0; i<operationsObjArray.length; i++){
+            if(operationsObjArray[i].operator==='+'){
+                result = add(operationsObjArray[i].leftOperand,operationsObjArray[i].rightOperand);
+            }
+            else if(operationsObjArray[i].operator==='-'){
+                result = subtract(operationsObjArray[i].leftOperand,operationsObjArray[i].rightOperand);
+            }
+            else if(operationsObjArray[i].operator==='*'){
+                result = multiply(operationsObjArray[i].leftOperand,operationsObjArray[i].rightOperand);
+            }
+            else if(operationsObjArray[i].operator==='/'){
+                result = divide(operationsObjArray[i].leftOperand,operationsObjArray[i].rightOperand);
+            }
+            else{
+                result = remainder(operationsObjArray[i].leftOperand,operationsObjArray[i].rightOperand);
+            }
+    
+            if(i===operationsObjArray.length-1){
+                break;
+            }
+            else{
+                operationsObjArray[i+1].leftOperand = result;
+            }
+        }
+    }
+
+    if(typeof result==='object'){
+        result = +result[0].toFixed(4);
+    }
+    else{
+        result = +result.toFixed(4);
+    }
+
     display.textContent = result;
 }
 
 //Run the numbers through the appropriate function based on the operand selection
-    //Sum
 function add(a,b){let leftOperand = '';
     return a + b;
 }
-    //Subtract
+
 function subtract(a,b){
     return a - b;
 }
-    //Multiply
+
 function multiply(a,b){
     return a * b;
 }
-    //Divide
+
 function divide(a,b){
     return a / b;
 }
 
-    //Remainder
 function remainder(a,b){
     return a % b;
 }
