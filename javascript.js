@@ -1,28 +1,3 @@
-/* Understanding the problem:
-    I must create a calculator that will take operands and operators from a user and return the requested operation
-    to a display for the user to see.
-*/
-
-/* Plan:
-Does your program have a user interface? What will it look like? What functionality will the interface have?
-    Yes, the program will have a user interface. This will be in the form of a calculator with buttons that are
-    operational as well as a display for the user to be able to see the operations they have requested. The interface
-    will have a range of buttons including: +, =, -, /, *, numbers from 0-9, a positive to negative operator (+/-), and
-    a clear button. There will also be display just as there is in a handheld calculator to show all of the inputs and
-    what has been returned from every operation. This interface will only allow mathematical functions to be performed.
-What inputs will your program have? Will the user enter data or will you get input from somewhere else?
-    The program will have input from buttons presses provided by the user on the calculator interface.
-What's the desired input?
-    The numbers and symbols that are visible on the calculator. The value input by the user will be rounded to a reasonable
-    amount of decimal points so that the number does not overflow off the calculator. A clear request from the clear button is also welcomed.
-Given your inputs, what are the steps necessary to return the desired output?
-    I must await a number to be input then await for the user to select an operator followed by another number. The numbers will
-    be rounded if they are too long and an error message will be given if the user attempts to divide by 0. These numbers must 
-    then be passed through the appropriate function with the outcome being displayed to the user. The resulting number from 
-    this operation must be stored for continuous use against other operations until the user presses the clear button. The 
-    clear button will reset the current value back to zero.
-*/
-
 const buttons = document.querySelectorAll('button');
 const numbers = document.querySelectorAll('button.number');
 const operators = document.querySelectorAll('button.operator');
