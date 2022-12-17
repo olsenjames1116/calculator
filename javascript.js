@@ -388,9 +388,10 @@ function remainder(a,b){
 
 //Clear everything to 0 when the clear button is pressed
 function clearInput(){
-    display.textContent = 0;
-    numberOperatorArray = [];
-    result = 0;
+    numString = '';
+    operationsObj.leftOperand = 0;
+    display.textContent = operationsObj.leftOperand;
+    result = 'empty';
     numberOfCharacters = 0;
     containsDecimal = false;
     removeActive();
