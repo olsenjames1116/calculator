@@ -73,13 +73,12 @@ numbersOperators.forEach(numberOperator => {
 
 //Key presses correlate to buttons on the calculator
 document.addEventListener('keydown', event => {
-    if((event.which>=48 && event.which<=57) || event.which===8 || event.which===13 || 
-    event.which===67 || event.which===187 || event.which===189 || event.which===190 || 
+    if((event.which>=48 && event.which<=57) || event.which===8 || event.which===67 
+    || event.which===187 || event.which===189 || event.which===190 || 
     event.which===191 || event.which===220){
         removeActive();
-        let eventKeyString = event.key;
 
-        if(eventKeyString==='Backspace'){
+        if(event.key==='Backspace'){
             numberOperatorArray.pop();
             if(numberOperatorArray.length===0){
                 display.textContent = 0;
@@ -87,18 +86,13 @@ document.addEventListener('keydown', event => {
             else{
                 display.textContent = numberOperatorArray.join('');
             }
-            console.table(numberOperatorArray);
             return;
         }
 
-        if(eventKeyString==='Enter'){
-            eventKeyString = '=';
-        }
-
-        let button = document.querySelector(`button[data-key="${eventKeyString}"]`);
+        let button = document.querySelector(`button[data-key="${event.key}"]`);
         button.classList.add('active');
 
-        if(eventKeyString==='c'){
+        if(event.key==='c'){
             clearInput();
             return;
         }
@@ -108,7 +102,7 @@ document.addEventListener('keydown', event => {
         }
 
 
-        if(eventKeyString==='='){
+        if(event.key==='='){
             splitArray();
             return;
         }
