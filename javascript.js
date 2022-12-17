@@ -12,100 +12,158 @@ let numberOperatorArray = [];
 let result;
 let numberOfCharacters = 0;
 let containsDecimal;
+let operationsObj = {
+    leftOperand: 'empty',
+    operator: 'empty',
+    rightOperand: 'empty',
+    result: 'empty',
+};
+let numString = '';
+
 
 clearInput();
 
 //Save all the input from the user
-numbersOperators.forEach(numberOperator => {
-    numberOperator.addEventListener('click', event => {
+numbers.forEach(number => {
+    number.addEventListener('click', event => {
         removeActive();
         event.target.classList.add('active');
 
-        if(result!==0){
-            clearInput();
-        }
+        // if(result!=='empty'){
+        //     clearInput();
+        // }
 
         if(numberOfCharacters<9){
             let displayString = event.target.textContent;
 
-            if(event.target.textContent==='.'){
-                if(containsDecimal){
-                    return;
-                }
-                containsDecimal = true;
+            numString += event.target.textContent;
+
+            if(operationsObj.rightOperand==='empty'){
+                operationsObj.leftOperand = numString;
+            }
+            else{
+                operationsObj.rightOperand = numString;
             }
 
-            if(displayString==='+/-'){
-                displayString = '-';
-            }
-
-            numberOperatorArray.push(displayString);
-            display.textContent = numberOperatorArray.join('');
+            display.textContent = numString;
             numberOfCharacters++;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            // if(event.target.textContent==='.'){
+            //     if(containsDecimal){
+            //         return;
+            //     }
+            //     containsDecimal = true;
+            // }
+
+            // if(displayString==='+/-'){
+            //     displayString = '-';
+            // }
+
+            // numberOperatorArray.push(displayString);
+            // display.textContent = numberOperatorArray.join('');
+            // numberOfCharacters++;
         }
     })
 })
 
 //Key presses correlate to buttons on the calculator
 document.addEventListener('keydown', event => {
-    if((event.which>=48 && event.which<=57) || event.which===8 || event.which===67 
-    || event.which===187 || event.which===189 || event.which===190 || 
-    event.which===191 || event.which===220){
-        removeActive();
-
-        if(event.key==='Backspace'){
-            numberOperatorArray.pop();
-            
-            if(numberOfCharacters>0){
-                numberOfCharacters--;
-            }
-
-            if(numberOperatorArray.length===0){
-                display.textContent = 0;
-            }
-            else{
-                display.textContent = numberOperatorArray.join('');
-            }
-            return;
-        }
-
-        let button = document.querySelector(`button[data-key="${event.key}"]`);
-        button.classList.add('active');
-
-        if(event.key==='c'){
-            clearInput();
-            return;
-        }
-
-        if(result!==0){
-            clearInput();
-        }
-
-
-        if(event.key==='='){
-            splitArray();
-            return;
-        }
+    if(event.which>=48 && event.which<=57){
 
         if(numberOfCharacters<9){
             let displayString = button.textContent;
 
-            if(button.textContent==='.'){
-                if(containsDecimal){
-                    return;
-                }
-                containsDecimal = true;
-            }
-
-            if(displayString==='+/-'){
-                displayString = '-';
-            }
-
-            numberOperatorArray.push(displayString);
-            display.textContent = numberOperatorArray.join('');
-            numberOfCharacters++;
         }
+
+
+
+
+
+
+
+
+
+
+
+        // removeActive();
+
+    //     if(event.key==='Backspace'){
+    //         numberOperatorArray.pop();
+
+    //         if(numberOfCharacters>0){
+    //             numberOfCharacters--;
+    //         }
+
+    //         if(numberOperatorArray.length===0){
+    //             display.textContent = 0;
+    //         }
+    //         else{
+    //             display.textContent = numberOperatorArray.join('');
+    //         }
+    //         return;
+    //     }
+
+    //     let button = document.querySelector(`button[data-key="${event.key}"]`);
+    //     button.classList.add('active');
+
+    //     if(event.key==='c'){
+    //         clearInput();
+    //         return;
+    //     }
+
+    //     if(result!==0){
+    //         clearInput();
+    //     }
+
+
+    //     if(event.key==='='){
+    //         splitArray();
+    //         return;
+    //     }
+
+    //     if(numberOfCharacters<9){
+    //         let displayString = button.textContent;
+
+    //         if(button.textContent==='.'){
+    //             if(containsDecimal){
+    //                 return;
+    //             }
+    //             containsDecimal = true;
+    //         }
+
+    //         if(displayString==='+/-'){
+    //             displayString = '-';
+    //         }
+
+    //         numberOperatorArray.push(displayString);
+    //         display.textContent = numberOperatorArray.join('');
+    //         numberOfCharacters++;
+    //     }
+    // }
     }
+    else if(event.which===8 || event.which===67 
+        || event.which===187 || event.which===189 || event.which===190 || 
+        event.which===191 || event.which===220){
+
+        }
 });
 
 equal.addEventListener('click',splitArray);
