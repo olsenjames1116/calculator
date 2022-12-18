@@ -35,8 +35,6 @@ numbers.forEach(number => {
         // }
 
         if(numberOfCharacters<9){
-            let displayString = event.target.textContent;
-
             numString += event.target.textContent;
 
             if(operationObj.operator==='empty'){
@@ -101,6 +99,35 @@ operators.forEach(operator => {
 })
 
 //Key presses correlate to buttons on the calculator
+document.addEventListener('keydown', event => {
+    if(event.which>=48 && event.which<=57){
+
+        if(numberOfCharacters<9){
+            numString += event.key;
+
+            if(operationObj.operator==='empty'){
+                operationObj.leftOperand = numString;
+            }
+            else{
+                operationObj.rightOperand = numString;
+            }
+
+            console.table(operationObj);
+
+            display.textContent = numString;
+            numberOfCharacters++;
+        }
+    }
+
+});
+
+
+
+
+
+
+
+
 // document.addEventListener('keydown', event => {
 //     if(event.which>=48 && event.which<=57){
 
@@ -287,28 +314,38 @@ function operate(){
     operationObj.leftOperand = +operationObj.leftOperand;
     operationObj.rightOperand = +operationObj.rightOperand;
 
-    if(operationObj.operator==='*'){
-        operationObj.result = multiply(operationObj.leftOperand,operationObj.rightOperand);
-    }
-    else if(operationObj.operator==='/'){
-        operationObj.result = divide(operationObj.leftOperand,operationObj.rightOperand);
-    }
-    else if(operationObj.operator==='%'){
-        operationObj.result = remainder(operationObj.leftOperand,operationObj.rightOperand);
-    }
-    else if(operationObj.operator==='+'){
-        operationObj.result = add(operationObj.leftOperand,operationObj.rightOperand);
+    if(!isNaN(operationObj.rightOperand) || operationObj.operator.length!==0){
+
+        if(operationObj.operator==='*'){
+            operationObj.result = multiply(operationObj.leftOperand,operationObj.rightOperand);
+        }
+        else if(operationObj.operator==='/'){
+            operationObj.result = divide(operationObj.leftOperand,operationObj.rightOperand);
+        }
+        else if(operationObj.operator==='%'){
+            operationObj.result = remainder(operationObj.leftOperand,operationObj.rightOperand);
+        }
+        else if(operationObj.operator==='+'){
+            operationObj.result = add(operationObj.leftOperand,operationObj.rightOperand);
+        }
+        else{
+            operationObj.result = subtract(operationObj.leftOperand,operationObj.rightOperand);
+        }
+    
+        display.textContent = operationObj.result;
+        operationObj.leftOperand = operationObj.result;
+        operationObj.rightOperand = 'empty';
+        operationObj.operator = '';
+        numString = '';
+        numberOfCharacters = 0;
+
     }
     else{
-        operationObj.result = subtract(operationObj.leftOperand,operationObj.rightOperand);
+        alert('Error. The calculator will clear out now.');
+        clearInput();
+
     }
 
-    display.textContent = operationObj.result;
-    operationObj.leftOperand = operationObj.result;
-    operationObj.rightOperand = 'empty';
-    operationObj.operator = '';
-    numString = '';
-    numberOfCharacters = 0;
 }
 
 
