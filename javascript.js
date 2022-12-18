@@ -195,7 +195,7 @@ function operate(){
     operationObj.leftOperand = +operationObj.leftOperand;
     operationObj.rightOperand = +operationObj.rightOperand;
 
-    if(!isNaN(operationObj.rightOperand) && operationObj.operator.length!==0){
+    if(!isNaN(operationObj.rightOperand) && operationObj.operator.length!==0 && !isNaN(operationObj.leftOperand)){
 
         if(operationObj.operator==='*'){
             operationObj.result = multiply(operationObj.leftOperand,operationObj.rightOperand);
@@ -213,11 +213,14 @@ function operate(){
             operationObj.result = subtract(operationObj.leftOperand,operationObj.rightOperand);
         }
         
-        operationObj.result = +operationObj.result.toFixed(4);
+        if(operationObj.result!==':('){
+            operationObj.result = +operationObj.result.toFixed(4);
+        }
+        
         display.textContent = operationObj.result;
         operationObj.leftOperand = operationObj.result;
         operationObj.rightOperand = 'empty';
-        operationObj.operator = '';
+        operationObj.operator = 'empty';
         numString = '';
         numberOfCharacters = 0;
 

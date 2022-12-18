@@ -33,7 +33,7 @@ button, button#positiveNegative{
 }
 
 button.number, button#decimal{
-    background-color: black;
+    background-color: rgb(64, 203, 180);
     color: white;
     outline: 1px solid black;
 }
