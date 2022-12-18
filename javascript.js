@@ -24,7 +24,7 @@ let leftOperandEntered = false;
 
 clearInput();
 
-//Save all the input from the user
+//Save the operand information from the user when they select from the UI
 numbers.forEach(number => {
     number.addEventListener('click', event => {
         removeActive();
@@ -64,6 +64,8 @@ numbers.forEach(number => {
     })
 })
 
+//Save input for operand from user
+    //Trigger object to begin storing information for further user input as the right operand
 operators.forEach(operator => {
     operator.addEventListener('click', event => {
         if(operationObj.rightOperand==='empty'){
@@ -81,9 +83,30 @@ operators.forEach(operator => {
 //Key presses correlate to buttons on the calculator
 document.addEventListener('keydown', event => {
     if(event.which>=48 && event.which<=57){
+        removeActive();
+
+        let button = document.querySelector(`button[data-key="${event.key}"]`);
+        button.classList.add('active');
 
         if(numberOfCharacters<9){
-            numString += event.key;
+
+            if(event.key==='.'){
+                if(containsDecimal){
+                    return;
+                }
+                containsDecimal = true;
+            }
+
+            if(event.key==='+/-'){
+                numString = +numString;
+                numString = numString * -1;
+                display.textContent = numString;
+                numString.toString();
+            }
+            else{
+                numString += event.key;
+                numberOfCharacters++;
+            }
 
             if(operationObj.operator==='empty'){
                 operationObj.leftOperand = numString;
@@ -92,13 +115,9 @@ document.addEventListener('keydown', event => {
                 operationObj.rightOperand = numString;
             }
 
-            console.table(operationObj);
-
             display.textContent = numString;
-            numberOfCharacters++;
         }
     }
-
 });
 
 
