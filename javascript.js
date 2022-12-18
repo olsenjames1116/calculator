@@ -11,7 +11,7 @@ const equal = document.querySelector('button.equal');
 // let numberOperatorArray = [];
 // let result;
 // let numberOfCharacters = 0;
-// let containsDecimal;
+let containsDecimal;
 let operationObj = {
     leftOperand: 'empty',
     operator: 'empty',
@@ -30,12 +30,25 @@ numbers.forEach(number => {
         removeActive();
         event.target.classList.add('active');
 
-        // if(result!=='empty'){
-        //     clearInput();
-        // }
-
         if(numberOfCharacters<9){
-            numString += event.target.textContent;
+
+            if(event.target.textContent==='.'){
+                if(containsDecimal){
+                    return;
+                }
+                containsDecimal = true;
+            }
+
+            if(event.target.textContent==='+/-'){
+                numString = +numString;
+                numString = numString * -1;
+                display.textContent = numString;
+                numString.toString();
+            }
+            else{
+                numString += event.target.textContent;
+                numberOfCharacters++;
+            }
 
             if(operationObj.operator==='empty'){
                 operationObj.leftOperand = numString;
@@ -47,40 +60,6 @@ numbers.forEach(number => {
             console.table(operationObj);
 
             display.textContent = numString;
-            numberOfCharacters++;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            // if(event.target.textContent==='.'){
-            //     if(containsDecimal){
-            //         return;
-            //     }
-            //     containsDecimal = true;
-            // }
-
-            // if(displayString==='+/-'){
-            //     displayString = '-';
-            // }
-
-            // numberOperatorArray.push(displayString);
-            // display.textContent = numberOperatorArray.join('');
-            // numberOfCharacters++;
         }
     })
 })
@@ -93,6 +72,7 @@ operators.forEach(operator => {
             operationObj.operator = event.target.textContent;
             numString = '';
             numberOfCharacters = 0;
+            containsDecimal = false;
             console.table(operationObj);
         }
     })
@@ -331,7 +311,8 @@ function operate(){
         else{
             operationObj.result = subtract(operationObj.leftOperand,operationObj.rightOperand);
         }
-    
+        
+        operationObj.result = +operationObj.result.toFixed(4);
         display.textContent = operationObj.result;
         operationObj.leftOperand = operationObj.result;
         operationObj.rightOperand = 'empty';

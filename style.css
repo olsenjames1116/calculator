@@ -26,7 +26,9 @@ div.display{
     font-size: 75px;
 }
 
-button{
+button, button#positiveNegative{
+    background-color: white;
+    color: black;
     font-size: 40px;
 }
 
