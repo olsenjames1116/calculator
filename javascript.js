@@ -314,7 +314,7 @@ function operate(){
     operationObj.leftOperand = +operationObj.leftOperand;
     operationObj.rightOperand = +operationObj.rightOperand;
 
-    if(!isNaN(operationObj.rightOperand) || operationObj.operator.length!==0){
+    if(!isNaN(operationObj.rightOperand) && operationObj.operator.length!==0){
 
         if(operationObj.operator==='*'){
             operationObj.result = multiply(operationObj.leftOperand,operationObj.rightOperand);
