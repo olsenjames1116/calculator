@@ -17,7 +17,6 @@ let operationObj = {
 let numString = '';
 let button;
 
-
 clearInput();
 
 //Save the operand information from the user when they select from the UI
@@ -53,8 +52,6 @@ numbers.forEach(number => {
                 operationObj.rightOperand = numString;
             }
 
-            console.table(operationObj);
-
             display.textContent = numString;
         }
     })
@@ -71,22 +68,40 @@ operators.forEach(operator => {
             numString = '';
             numberOfCharacters = 0;
             containsDecimal = false;
-            console.table(operationObj);
         }
     })
 })
 
 //Key presses correlate to buttons on the calculator
 document.addEventListener('keydown', event => {
-    if((event.which>=48 && event.which<=57) || event.which===190 || event.which===8){
+    if((event.which>=48 && event.which<=57) || event.which===190 || event.which===8 || event.which===16 || event.which===187){
+
+        if(event.key==='='){
+            operate();
+            return;
+        }
+
         removeActive();
+
+        if(event.shiftKey){
+            if(event.key==='+' || event.key==='*' || event.key==='%'){
+                if(operationObj.rightOperand==='empty'){
+                    removeActive();
+                    operationObj.operator = event.key;
+                    numString = '';
+                    numberOfCharacters = 0;
+                    containsDecimal = false;
+                }
+            }
+            return;
+        }
 
         if(event.key==='Backspace'){
             if(numberOfCharacters>0){
                 numberOfCharacters --;
             }
             if(operationObj.operator==='empty'){
-                operationObj.leftOperand.toString();
+                operationObj.leftOperand = operationObj.leftOperand.toString();
                 if(operationObj.leftOperand.length<=1){
                     numString = '';
                     operationObj.leftOperand = 0;
@@ -99,7 +114,7 @@ document.addEventListener('keydown', event => {
                 }
             }
             else{
-                operationObj.rightOperand.toString();
+                operationObj.rightOperand = operationObj.rightOperand.toString();
                 if(operationObj.rightOperand.length<=1){
                     numString = '';
                     operationObj.rightOperand = 'empty';
@@ -163,93 +178,7 @@ document.addEventListener('keydown', event => {
             containsDecimal = false;
         }
     }
-    else if(event.which===187){
-        operate();
-    }
 });
-
-
-
-
-
-
-
-
-// document.addEventListener('keydown', event => {
-//     if(event.which>=48 && event.which<=57){
-
-//         if(numberOfCharacters<9){
-//             let displayString = button.textContent;
-
-//         }
-
-
-
-
-
-
-
-
-
-
-
-//         // removeActive();
-
-//     //     if(event.key==='Backspace'){
-//     //         numberOperatorArray.pop();
-
-//     //         if(numberOfCharacters>0){
-//     //             numberOfCharacters--;
-//     //         }
-
-//     //         if(numberOperatorArray.length===0){
-//     //             display.textContent = 0;
-//     //         }
-//     //         else{
-//     //             display.textContent = numberOperatorArray.join('');
-//     //         }
-//     //         return;
-//     //     }
-
-//     //     let button = document.querySelector(`button[data-key="${event.key}"]`);
-//     //     button.classList.add('active');
-
-//     //     if(result!==0){
-//     //         clearInput();
-//     //     }
-
-
-//     //     if(event.key==='='){
-//     //         splitArray();
-//     //         return;
-//     //     }
-
-//     //     if(numberOfCharacters<9){
-//     //         let displayString = button.textContent;
-
-//     //         if(button.textContent==='.'){
-//     //             if(containsDecimal){
-//     //                 return;
-//     //             }
-//     //             containsDecimal = true;
-//     //         }
-
-//     //         if(displayString==='+/-'){
-//     //             displayString = '-';
-//     //         }
-
-//     //         numberOperatorArray.push(displayString);
-//     //         display.textContent = numberOperatorArray.join('');
-//     //         numberOfCharacters++;
-//     //     }
-//     // }
-//     }
-//     else if(event.which===8 || event.which===67 
-//         || event.which===187 || event.which===189 || event.which===190 || 
-//         event.which===191 || event.which===220){
-
-//         }
-// });
 
 equal.addEventListener('click',operate);
 
