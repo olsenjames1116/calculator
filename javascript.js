@@ -89,6 +89,8 @@ numbers.forEach(number => {
 operators.forEach(operator => {
     operator.addEventListener('click', event => {
         if(operationObj.rightOperand==='empty'){
+            removeActive();
+            event.target.classList.add('active');
             operationObj.operator = event.target.textContent;
             operationObj.rightOperand = 'ready';
             numString = '';
@@ -180,7 +182,7 @@ operators.forEach(operator => {
 //         }
 // });
 
-// equal.addEventListener('click',splitArray);
+equal.addEventListener('click',operate);
 
 clear.addEventListener('click',clearInput);
 
@@ -281,6 +283,37 @@ function removeActive(){
 // }
 
 //Decide which operation should be performed and output result
+function operate(){
+    operationObj.leftOperand = +operationObj.leftOperand;
+    operationObj.rightOperand = +operationObj.rightOperand;
+
+    if(operationObj.operator==='*'){
+        operationObj.result = multiply(operationObj.leftOperand,operationObj.rightOperand);
+    }
+    else if(operationObj.operator==='/'){
+        operationObj.result = divide(operationObj.leftOperand,operationObj.rightOperand);
+    }
+    else if(operationObj.operator==='%'){
+        operationObj.result = remainder(operationObj.leftOperand,operationObj.rightOperand);
+    }
+    else if(operationObj.operator==='+'){
+        operationObj.result = add(operationObj.leftOperand,operationObj.rightOperand);
+    }
+    else{
+        operationObj.result = subtract(operationObj.leftOperand,operationObj.rightOperand);
+    }
+
+    display.textContent = operationObj.result;
+    operationObj.leftOperand = operationObj.result;
+    operationObj.operator = 'empty';
+}
+
+
+
+
+
+
+
 // function operate(operationsObjArray){
 //     console.table(numberOperatorArray);
 //     console.table(operationsObjArray);
