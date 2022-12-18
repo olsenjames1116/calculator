@@ -19,6 +19,7 @@ let operationObj = {
     result: 'empty',
 };
 let numString = '';
+let leftOperandEntered = false;
 
 
 clearInput();
@@ -38,7 +39,7 @@ numbers.forEach(number => {
 
             numString += event.target.textContent;
 
-            if(operationObj.rightOperand==='empty'){
+            if(operationObj.operator==='empty'){
                 operationObj.leftOperand = numString;
             }
             else{
@@ -92,7 +93,6 @@ operators.forEach(operator => {
             removeActive();
             event.target.classList.add('active');
             operationObj.operator = event.target.textContent;
-            operationObj.rightOperand = 'ready';
             numString = '';
             numberOfCharacters = 0;
             console.table(operationObj);
@@ -305,7 +305,10 @@ function operate(){
 
     display.textContent = operationObj.result;
     operationObj.leftOperand = operationObj.result;
-    operationObj.operator = 'empty';
+    operationObj.rightOperand = 'empty';
+    operationObj.operator = '';
+    numString = '';
+    numberOfCharacters = 0;
 }
 
 
@@ -426,6 +429,10 @@ function multiply(a,b){
 }
 
 function divide(a,b){
+    if(b===0){
+        alert('You broke the laws of space and time. You are now an intergalactic wanted criminal. Hope it was worth it.');
+        return ':(';
+    }
     return a / b;
 }
 
@@ -437,6 +444,7 @@ function remainder(a,b){
 function clearInput(){
     numString = '';
     operationObj.leftOperand = 0;
+    operationObj.operator = 'empty';
     operationObj.rightOperand = 'empty';
     display.textContent = operationObj.leftOperand;
     operationObj.result = 'empty';
